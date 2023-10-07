@@ -3,6 +3,7 @@ Modify the Student class to include a “GradeBook” class reference as a frien
 GradeBook class can access the students’ private information like id, name, age, etc. 
 Create an array of Student to instantiate a few objects in main method and print private student information via friend Gradebook class.*/
 
+
 #include <iostream>
 #include <string>
 
@@ -17,8 +18,8 @@ private:
     string name;   // Student's name
     int age;       // Student's age
 
-    // /*Declare GradeBook as a friend class to allow access to private members*/
-
+    // Declare GradeBook as a friend class to allow access to private members
+    friend class GradeBook;
 
 public:
     Student() {}
@@ -43,11 +44,16 @@ public:
 class GradeBook {
 public:
     // Function to print private student information
-    static void PrintStudentInfo(const /*Pass in the array of students*/) {
+    static void PrintStudentInfo(const Student students[], int size) {
         cout << "Accessing private student information via GradeBook:" << endl;
-        // Print the Student ID
-        // Print the Student Name
-        // Print the student's Age
+        for (int i = 0; i < size; i++) {
+            // Print the Student ID
+            cout << "ID: " << students[i].netID << endl;
+            // Print the Student Name
+            cout << "Name: " << students[i].name << endl;
+            // Print the student's Age
+            cout << "Age: " << students[i].age << endl;
+        }
     }
 };
 
@@ -61,9 +67,7 @@ int main() {
     students[2] = Student("ID789", "Bob", 21);
 
     // Access and print private student information via GradeBook
-    for (const Student &student : students) {
-       // call the PrintStudentInfo function that belongs to the GradeBook class to print the student information.
-    }
+    GradeBook::PrintStudentInfo(students, 3);
 
     return 0;
 }
