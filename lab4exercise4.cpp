@@ -11,6 +11,9 @@ vings account should have additional members to set the interest rate (per
 
 using namespace std;
 
+// Enumeration for account types
+enum AccountType { CURRENT, SAVINGS };
+
 // Base class: Account
 class Account {
 protected:
@@ -18,10 +21,11 @@ protected:
     double balance;
     int numWithdrawals;
     int numDeposits;
+    AccountType accountType;
 
 public:
-    Account(string holder, double initialBalance)
-        : accountHolder(holder), balance(initialBalance), numWithdrawals(0), numDeposits(0) {}
+    Account(string holder, double initialBalance, AccountType type)
+        : accountHolder(holder), balance(initialBalance), numWithdrawals(0), numDeposits(0), accountType(type) {}
 
     // Utility method to make a deposit
     void deposit(double amount) {
@@ -30,7 +34,7 @@ public:
     }
 
     // Utility method to make a withdrawal
-    void withdraw(double amount) {
+    virtual void withdraw(double amount) {
         if (balance >= amount) {
             balance -= amount;
             numWithdrawals++;
@@ -40,8 +44,9 @@ public:
     }
 
     // Utility method to print the account statement
-    void printStatement() {
+    virtual void printStatement() {
         cout << "Account Holder: " << accountHolder << endl;
+        cout << "Account Type: " << (accountType == CURRENT ? "Current" : "Savings") << endl;
         cout << "Number of Withdrawals: " << numWithdrawals << endl;
         cout << "Number of Deposits: " << numDeposits << endl;
         cout << "Balance: $" << balance << endl;
@@ -52,11 +57,12 @@ public:
 class CurrentAccount : public Account {
 public:
     CurrentAccount(string holder, double initialBalance)
-        : Account(holder, initialBalance) {}
+        : Account(holder, initialBalance, CURRENT) {}
 
     // Override the withdraw method to allow overdrafts
     void withdraw(double amount) {
-        //Implementation Here
+        balance -= amount;
+        numWithdrawals++;
     }
 };
 
@@ -67,18 +73,17 @@ private:
 
 public:
     SavingsAccount(string holder, double initialBalance, double rate)
-        : Account(holder, initialBalance), interestRate(rate) {}
+        : Account(holder, initialBalance, SAVINGS), interestRate(rate) {}
 
-    // Calculate profit on balance per month based on interest rate according to the equation Profit = (balance * interestRate) / 12.0;
+    // Calculate profit on balance per month based on interest rate
     double calculateProfit() {
-       //Implement the profit calculation
+        return (balance * interestRate) / 12.0;
     }
 
     // Override the printStatement method to include profit
     void printStatement() {
-        //Call the Account::printStatement() original function to print the normal values of the account;
-        // Print the calculated profit 
-        // cout << "Monthly Interest (Profit): $" << /*call the calculateProfit function*/ << endl;
+        Account::printStatement(); // Call the base class printStatement method
+        cout << "Monthly Interest (Profit): $" << calculateProfit() << endl;
     }
 };
 
@@ -102,3 +107,4 @@ int main() {
 
     return 0;
 }
+
