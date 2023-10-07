@@ -5,6 +5,13 @@ size_of_containers for Truck, number_of_doors for Car and no_of_boxes for
 the Van class. Implement print method in each derived class to print compl-
 ete vehicle information.*/
 
+/*Create a class called Vehicle to store common information about a vehicle
+like number of wheels, color, fuel type, max speed etc. Create 3 derived c-
+lasses named Truck, Car and Van and add personalized fields like 
+size_of_containers for Truck, number_of_doors for Car and no_of_boxes for 
+the Van class. Implement print method in each derived class to print compl-
+ete vehicle information.*/
+
 #include <iostream>
 #include <string>
 
@@ -30,7 +37,7 @@ public:
     }
 };
 
-
+// Derived class: Truck
 class Truck : public Vehicle {
 private:
     int sizeOfContainers;
@@ -47,20 +54,35 @@ public:
 };
 
 // Derived class: Car
-//Use the previous truck class example to create a derived class car with the additional attribute numberOfDoors {
+class Car : public Vehicle {
 private:
     int numberOfDoors;
-  // Implement the constructor
-  //Implement the print function
+
+public:
+    Car(int wheels, string clr, string fuel, int speed, int doors)
+        : Vehicle(wheels, clr, fuel, speed), numberOfDoors(doors) {}
+
+    void Print() {
+        cout << "Car Information:" << endl;
+        Vehicle::Print();
+        cout << "Number of Doors: " << numberOfDoors << endl;
+    }
 };
 
 // Derived class: Van
-//Use the previous truck class example to create a derived class car with the additional attribute numberOfBoxes {
+class Van : public Vehicle {
 private:
     int numberOfBoxes;
 
-  // Implement the constructor
-  //Implement the print function
+public:
+    Van(int wheels, string clr, string fuel, int speed, int boxes)
+        : Vehicle(wheels, clr, fuel, speed), numberOfBoxes(boxes) {}
+
+    void Print() {
+        cout << "Van Information:" << endl;
+        Vehicle::Print();
+        cout << "Number of Boxes: " << numberOfBoxes << endl;
+    }
 };
 
 int main() {
@@ -78,3 +100,4 @@ int main() {
 
     return 0;
 }
+
