@@ -18,8 +18,8 @@ public:
     // Default constructor with default values
     Employee(string n = "John", float p = -1) : name(n), pay(p) {}
 
-    // Define Virtual function to calculate pay for the employee 
-    
+    // Define Virtual function to calculate pay for the employee
+    virtual float getPay() const = 0;
 
     string getName() const {
         return name;
@@ -41,42 +41,70 @@ public:
     }
 
     // Override the getPay method to return salary
-    float getPay() const {
+    float getPay() const override {
         return pay;
     }
 };
 
-
-// Using the SalariedEmployee class as an example, define the Derived class: HourlyEmployee {
+// Derived class: HourlyEmployee
+class HourlyEmployee : public Employee {
 private:
+    float wage;
     float workingHours;
 
 public:
-    // Define Constructor with default values
-    
+    // Constructor with default values
+    HourlyEmployee(string n = "John", float w = 0, float hours = 0)
+        : wage(w), workingHours(hours) {
+        name = n;
+    }
 
-    // Define Setters for wage and working hours
-   
+    // Setters for wage and working hours
+    void setWage(float w) {
+        wage = w;
+    }
+
+    void setWorkingHours(float hours) {
+        workingHours = hours;
+    }
 
     // Override the getPay method to calculate pay based on wage and working hours
-    
+    float getPay() const override {
+        return wage * workingHours;
+    }
 };
 
-//
-// Define Derived class: CommissionedEmployee  {
+// Derived class: CommissionedEmployee
+class CommissionedEmployee : public Employee {
 private:
+    float basePay;
     float commissionRate;
     float volumeOfSales;
 
 public:
-    // Define Constructor with default values
-    
+    // Constructor with default values
+    CommissionedEmployee(string n = "John", float base = 0, float rate = 0, float sales = 0)
+        : basePay(base), commissionRate(rate), volumeOfSales(sales) {
+        name = n;
+    }
 
     // Setters for base pay, commission rate, and volume of sales
-   
+    void setBasePay(float base) {
+        basePay = base;
+    }
+
+    void setCommissionRate(float rate) {
+        commissionRate = rate;
+    }
+
+    void setVolumeOfSales(float sales) {
+        volumeOfSales = sales;
+    }
 
     // Override the getPay method to calculate pay based on base pay and commission
-    
+    float getPay() const override {
+        return basePay + (commissionRate * volumeOfSales);
+    }
 };
 
 int main() {
